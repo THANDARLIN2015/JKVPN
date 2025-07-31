@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JK VPN WEBSITE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <style>
         :root {
             --primary-color: #4a6bff;
@@ -40,18 +41,52 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
-        .dark-mode header {
-            border-bottom-color: #444;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-img {
+            height: 40px;
+        }
+        
+        .logo-text {
             font-size: 24px;
             font-weight: bold;
             color: var(--primary-color);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .download-btn {
+            padding: 8px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .download-btn:hover {
+            opacity: 0.9;
         }
         
         .language-switcher {
@@ -125,26 +160,54 @@
             font-weight: bold;
         }
         
-        .server-status {
-            margin-bottom: 15px;
+        .server-list {
+            display: grid;
+            gap: 15px;
         }
         
-        .status-item {
+        .server-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: var(--transition);
         }
         
-        .status-label {
+        .dark-mode .server-item {
+            background-color: #0f3460;
+        }
+        
+        .server-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .server-flag {
+            font-size: 20px;
+        }
+        
+        .server-name {
             font-weight: 500;
         }
         
-        .status-value {
-            font-weight: bold;
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .status-active {
-            color: var(--success-color);
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--success-color);
+        }
+        
+        .status-ping {
+            font-family: monospace;
         }
         
         .public-message {
@@ -197,6 +260,8 @@
             color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: var(--transition);
+            text-decoration: none;
+            font-weight: bold;
         }
         
         .facebook {
@@ -210,14 +275,12 @@
         footer {
             text-align: center;
             padding: 20px 0;
-            border-top: 1px solid #ddd;
             margin-top: 30px;
             font-size: 14px;
             color: #666;
         }
         
         .dark-mode footer {
-            border-top-color: #444;
             color: #aaa;
         }
         
@@ -229,19 +292,44 @@
             .time-display {
                 font-size: 24px;
             }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">JK VPN WEBSITE</div>
-            <div class="language-switcher">
-                <select id="language-select">
-                    <option value="en">English</option>
-                    <option value="my">မြန်မာ</option>
-                    <option value="th">ไทย</option>
-                </select>
+            <div class="header-left">
+                <div class="logo">
+                    <img src="https://via.placeholder.com/40" alt="JK VPN Logo" class="logo-img">
+                    <span class="logo-text">JK VPN</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="#" class="download-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    Download APK
+                </a>
+                <div class="language-switcher">
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="my">မြန်မာ</option>
+                        <option value="th">ไทย</option>
+                    </select>
+                </div>
             </div>
         </header>
         
@@ -273,31 +361,65 @@
             <!-- Server Status -->
             <div class="card">
                 <h3 class="card-title">Server Status Monitor</h3>
-                <div class="server-status">
-                    <div class="status-item">
-                        <span class="status-label">Active Users:</span>
-                        <span class="status-value status-active" id="active-users">1,245</span>
+                <div class="server-list">
+                    <!-- Singapore Server -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-sg"></span>
+                            <span class="server-name">Singapore</span>
+                        </div>
+                        <div class="server-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-ping">28ms</span>
+                        </div>
                     </div>
-                    <div class="status-item">
-                        <span class="status-label">Ping (ms):</span>
-                        <span class="status-value status-active" id="ping">32</span>
+                    
+                    <!-- Thailand Server -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-th"></span>
+                            <span class="server-name">Thailand</span>
+                        </div>
+                        <div class="server-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-ping">35ms</span>
+                        </div>
                     </div>
-                    <div class="status-item">
-                        <span class="status-label">Total Users:</span>
-                        <span class="status-value status-active" id="total-users">12,589</span>
+                    
+                    <!-- India Server -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-in"></span>
+                            <span class="server-name">India</span>
+                        </div>
+                        <div class="server-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-ping">62ms</span>
+                        </div>
                     </div>
-                    <div class="status-item">
-                        <span class="status-label">Last Update:</span>
-                        <span class="status-value status-active" id="last-update">Just now</span>
+                    
+                    <!-- Japan Server -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-jp"></span>
+                            <span class="server-name">Japan</span>
+                        </div>
+                        <div class="server-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-ping">89ms</span>
+                        </div>
                     </div>
+                </div>
+                <div style="margin-top: 15px; text-align: right; font-size: 14px;">
+                    Last updated: <span id="last-update">Just now</span>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="social-buttons">
-        <a href="#" class="social-button facebook">f</a>
-        <a href="#" class="social-button telegram">t</a>
+        <a href="https://facebook.com" target="_blank" class="social-button facebook">f</a>
+        <a href="https://telegram.org" target="_blank" class="social-button telegram">t</a>
     </div>
     
     <div class="theme-switcher" id="theme-switcher">☀️</div>
@@ -346,17 +468,24 @@
         
         // Server status updates (simulated)
         function updateServerStatus() {
-            // Simulate random active users
-            const activeUsers = Math.floor(Math.random() * 500) + 1000;
-            document.getElementById('active-users').textContent = activeUsers.toLocaleString();
-            
-            // Simulate random ping
-            const ping = Math.floor(Math.random() * 30) + 10;
-            document.getElementById('ping').textContent = ping;
-            
             // Update last update time
             const now = new Date();
-            document.getElementById('last-update').textContent = 'Just now';
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('last-update').textContent = timeString;
+            
+            // Simulate random ping for each server
+            const servers = [
+                { name: 'Singapore', maxPing: 30 },
+                { name: 'Thailand', maxPing: 40 },
+                { name: 'India', maxPing: 70 },
+                { name: 'Japan', maxPing: 100 }
+            ];
+            
+            servers.forEach(server => {
+                const ping = Math.floor(Math.random() * server.maxPing) + 10;
+                const pingElement = document.querySelector(`.server-name:contains(${server.name})`).closest('.server-item').querySelector('.status-ping');
+                pingElement.textContent = `${ping}ms`;
+            });
         }
         
         setInterval(updateServerStatus, 30000);
