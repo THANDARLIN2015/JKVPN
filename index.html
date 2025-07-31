@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK VPN - Premium VPN Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
+            transition: var(--transition);
+        }
+        
+        body.dark {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-img {
+            height: 36px;
+            width: 36px;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--gray);
+            color: var(--dark);
+        }
+        
+        .dark .btn-outline {
+            border-color: var(--dark-light);
+            color: var(--light);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .dark .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Main Content */
+        .announcement {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.1));
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .dark .announcement {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15));
+        }
+        
+        .announcement-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .dark .card {
+            background-color: var(--dark-light);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Time Card */
+        .time-display {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin: 16px 0;
+            font-feature-settings: "tnum";
+        }
+        
+        .time-label {
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* Weather Card */
+        .weather {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .weather-icon {
+            font-size: 56px;
+            line-height: 1;
+        }
+        
+        .weather-info {
+            text-align: right;
+        }
+        
+        .weather-temp {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .weather-desc {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* Server Card */
+        .server-list {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .server-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: rgba(248, 250, 252, 0.5);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .dark .server-item {
+            background-color: rgba(30, 41, 59, 0.5);
+        }
+        
+        .server-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .server-flag {
+            font-size: 24px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .server-name {
+            font-weight: 500;
+        }
+        
+        .server-stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--success);
+        }
+        
+        .status-ping {
+            font-family: 'Inter', monospace;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .server-users {
+            font-size: 12px;
+            color: var(--gray);
+            background-color: rgba(148, 163, 184, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .dark .server-users {
+            background-color: rgba(148, 163, 184, 0.2);
+        }
+        
+        .card-footer {
+            margin-top: 16px;
+            text-align: right;
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Floating Elements */
+        .floating-actions {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+        }
+        
+        .floating-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .theme-toggle {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+        }
+        
+        .social-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .facebook-btn {
+            background-color: #1877f2;
+        }
+        
+        .telegram-btn {
+            background-color: #0088cc;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .time-display {
+                font-size: 28px;
+            }
+            
+            .weather-icon {
+                font-size: 48px;
+            }
+            
+            .weather-temp {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://via.placeholder.com/36/6366f1/ffffff?text=JK" alt="JK VPN Logo" class="logo-img">
+                <span class="logo-text">JK VPN</span>
+            </div>
+            <div class="header-actions">
+                <a href="#" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    Download
+                </a>
+                <select class="btn btn-outline" id="language-select">
+                    <option value="en">English</option>
+                    <option value="my">မြန်မာ</option>
+                    <option value="th">ไทย</option>
+                </select>
+            </div>
+        </header>
+        
+        <div class="announcement">
+            <div class="announcement-title">Service Announcement</div>
+            <p>All servers are operating normally with high-speed connections. New Japan server now available!</p>
+        </div>
+        
+        <div class="dashboard">
+            <!-- Time Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Thai Digital Clock</div>
+                </div>
+                <div class="time-display" id="thai-clock">00:00:00</div>
+                <div class="time-label">Bangkok Time (GMT+7)</div>
+            </div>
+            
+            <!-- Weather Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Weather Status</div>
+                </div>
+                <div class="weather">
+                    <div class="weather-icon" id="weather-icon">☀️</div>
+                    <div class="weather-info">
+                        <div class="weather-temp" id="weather-temp">28°C</div>
+                        <div class="weather-desc" id="weather-desc">Sunny</div>
+                        <div class="weather-desc">Yangon, MM</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Server Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Server Status</div>
+                </div>
+                <div class="server-list">
+                    <!-- Singapore -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-sg"></span>
+                            <span class="server-name">Singapore</span>
+                        </div>
+                        <div class="server-stats">
+                            <div class="server-users">1.2K online</div>
+                            <div class="server-status">
+                                <span class="status-indicator"></span>
+                                <span class="status-ping">28ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Thailand -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-th"></span>
+                            <span class="server-name">Thailand</span>
+                        </div>
+                        <div class="server-stats">
+                            <div class="server-users">856 online</div>
+                            <div class="server-status">
+                                <span class="status-indicator"></span>
+                                <span class="status-ping">35ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- India -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-in"></span>
+                            <span class="server-name">India</span>
+                        </div>
+                        <div class="server-stats">
+                            <div class="server-users">642 online</div>
+                            <div class="server-status">
+                                <span class="status-indicator"></span>
+                                <span class="status-ping">62ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Japan -->
+                    <div class="server-item">
+                        <div class="server-info">
+                            <span class="server-flag flag-icon flag-icon-jp"></span>
+                            <span class="server-name">Japan</span>
+                        </div>
+                        <div class="server-stats">
+                            <div class="server-users">328 online</div>
+                            <div class="server-status">
+                                <span class="status-indicator"></span>
+                                <span class="status-ping">89ms</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    Last updated: <span id="last-update">Just now</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="floating-actions">
+        <a href="https://facebook.com/jkvpn" target="_blank" class="social-btn facebook-btn floating-btn">f</a>
+        <a href="https://t.me/jkvpn" target="_blank" class="social-btn telegram-btn floating-btn">t</a>
+        <div class="theme-toggle floating-btn" id="theme-toggle">☀️</div>
+    </div>
+    
+    <footer>
+        <div class="copyright">
+            &copy; <span id="copyright-year">2023</span> JK VPN. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Thai Digital Clock
+        function updateThaiClock() {
+            const options = { 
+                timeZone: 'Asia/Bangkok',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            const thaiTime = new Date().toLocaleTimeString('en-US', options);
+            document.getElementById('thai-clock').textContent = thaiTime;
+        }
+        
+        setInterval(updateThaiClock, 1000);
+        updateThaiClock();
+        
+        // Weather Simulation
+        function updateWeather() {
+            const now = new Date();
+            const hours = now.getHours();
+            const weatherIcon = document.getElementById('weather-icon');
+            const weatherDesc = document.getElementById('weather-desc');
+            
+            if (hours >= 5 && hours < 18) {
+                // Daytime (5am-6pm)
+                weatherIcon.textContent = '☀️';
+                weatherDesc.textContent = 'Sunny';
+                document.getElementById('weather-temp').textContent = `${Math.floor(Math.random() * 5) + 28}°C`;
+            } else {
+                // Nighttime
+                weatherIcon.textContent = '🌙';
+                weatherDesc.textContent = 'Clear';
+                document.getElementById('weather-temp').textContent = `${Math.floor(Math.random() * 5) + 24}°C`;
+            }
+        }
+        
+        setInterval(updateWeather, 300000); // Update every 5 minutes
+        updateWeather();
+        
+        // Server Status Simulation
+        function updateServers() {
+            const servers = [
+                { name: 'Singapore', maxPing: 30, users: 1200 },
+                { name: 'Thailand', maxPing: 40, users: 850 },
+                { name: 'India', maxPing: 70, users: 640 },
+                { name: 'Japan', maxPing: 100, users: 330 }
+            ];
+            
+            servers.forEach(server => {
+                const ping = Math.floor(Math.random() * server.maxPing) + 10;
+                const onlineUsers = Math.floor(Math.random() * server.users * 0.2) + server.users * 0.8;
+                
+                const serverElement = document.querySelector(`.server-name:contains(${server.name})`).closest('.server-item');
+                serverElement.querySelector('.status-ping').textContent = `${ping}ms`;
+                serverElement.querySelector('.server-users').textContent = `${Math.round(onlineUsers / 100) / 10}K online`;
+            });
+            
+            // Update timestamp
+            const now = new Date();
+            document.getElementById('last-update').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        setInterval(updateServers, 30000); // Update every 30 seconds
+        updateServers();
+        
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+            
+            if (document.body.classList.contains('dark')) {
+                themeToggle.textContent = '🌙';
+            } else {
+                themeToggle.textContent = '☀️';
+            }
+        });
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))) {
+            document.body.classList.add('dark');
+            themeToggle.textContent = '🌙';
+        }
+        
+        // Set copyright year
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+        
+        // Language switcher
+        document.getElementById('language-select').addEventListener('change', function() {
+            // In a real implementation, this would load translations
+            console.log('Language changed to:', this.value);
+        });
+    </script>
+</body>
+</html>
