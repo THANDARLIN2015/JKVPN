@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK VPN WEBSITE</title>
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-color);
+            color: #333;
+            transition: var(--transition);
+        }
+        
+        body.dark-mode {
+            background-color: var(--dark-color);
+            color: #f1f1f1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+        
+        .dark-mode header {
+            border-bottom-color: #444;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .language-switcher {
+            position: relative;
+        }
+        
+        .language-switcher select {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .dark-mode .language-switcher select {
+            background-color: #333;
+            color: white;
+            border-color: #555;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .dark-mode .card {
+            background-color: #16213e;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .time-display {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .weather-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        
+        .weather-icon {
+            font-size: 48px;
+        }
+        
+        .weather-details {
+            text-align: center;
+        }
+        
+        .weather-temp {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .server-status {
+            margin-bottom: 15px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .status-label {
+            font-weight: 500;
+        }
+        
+        .status-value {
+            font-weight: bold;
+        }
+        
+        .status-active {
+            color: var(--success-color);
+        }
+        
+        .public-message {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .dark-mode .public-message {
+            background-color: #332d1a;
+        }
+        
+        .theme-switcher {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .social-buttons {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+        
+        .facebook {
+            background-color: #1877f2;
+        }
+        
+        .telegram {
+            background-color: #0088cc;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #ddd;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .dark-mode footer {
+            border-top-color: #444;
+            color: #aaa;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-display {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">JK VPN WEBSITE</div>
+            <div class="language-switcher">
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="my">မြန်မာ</option>
+                    <option value="th">ไทย</option>
+                </select>
+            </div>
+        </header>
+        
+        <div class="public-message">
+            <strong>Public Message:</strong> Welcome to JK VPN service. Our servers are currently running smoothly with high speed connection.
+        </div>
+        
+        <div class="dashboard">
+            <!-- Thai Digital Clock -->
+            <div class="card">
+                <h3 class="card-title">Thai Digital Clock</h3>
+                <div class="time-display" id="thai-clock">00:00:00</div>
+                <div style="text-align: center;">Bangkok Time (GMT+7)</div>
+            </div>
+            
+            <!-- Weather Information -->
+            <div class="card">
+                <h3 class="card-title">Weather Status</h3>
+                <div class="weather-info">
+                    <div class="weather-icon">☀️</div>
+                    <div class="weather-details">
+                        <div class="weather-temp" id="weather-temp">28°C</div>
+                        <div id="weather-desc">Sunny</div>
+                        <div id="weather-location">Yangon</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Server Status -->
+            <div class="card">
+                <h3 class="card-title">Server Status Monitor</h3>
+                <div class="server-status">
+                    <div class="status-item">
+                        <span class="status-label">Active Users:</span>
+                        <span class="status-value status-active" id="active-users">1,245</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Ping (ms):</span>
+                        <span class="status-value status-active" id="ping">32</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Total Users:</span>
+                        <span class="status-value status-active" id="total-users">12,589</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Last Update:</span>
+                        <span class="status-value status-active" id="last-update">Just now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="social-buttons">
+        <a href="#" class="social-button facebook">f</a>
+        <a href="#" class="social-button telegram">t</a>
+    </div>
+    
+    <div class="theme-switcher" id="theme-switcher">☀️</div>
+    
+    <footer>
+        &copy; <span id="copyright-year">2023</span> JK VPN. All Rights Reserved.
+    </footer>
+
+    <script>
+        // Thai Digital Clock
+        function updateThaiClock() {
+            const options = { 
+                timeZone: 'Asia/Bangkok',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            const thaiTime = new Date().toLocaleTimeString('en-US', options);
+            document.getElementById('thai-clock').textContent = thaiTime;
+        }
+        
+        setInterval(updateThaiClock, 1000);
+        updateThaiClock();
+        
+        // Day/Night mode for weather
+        function updateWeatherByTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const weatherIcon = document.querySelector('.weather-icon');
+            const weatherDesc = document.getElementById('weather-desc');
+            
+            if (hours >= 6 && hours < 18) {
+                // Daytime
+                weatherIcon.textContent = '☀️';
+                weatherDesc.textContent = 'Sunny';
+            } else {
+                // Nighttime
+                weatherIcon.textContent = '🌙';
+                weatherDesc.textContent = 'Clear Night';
+            }
+        }
+        
+        setInterval(updateWeatherByTime, 60000);
+        updateWeatherByTime();
+        
+        // Server status updates (simulated)
+        function updateServerStatus() {
+            // Simulate random active users
+            const activeUsers = Math.floor(Math.random() * 500) + 1000;
+            document.getElementById('active-users').textContent = activeUsers.toLocaleString();
+            
+            // Simulate random ping
+            const ping = Math.floor(Math.random() * 30) + 10;
+            document.getElementById('ping').textContent = ping;
+            
+            // Update last update time
+            const now = new Date();
+            document.getElementById('last-update').textContent = 'Just now';
+        }
+        
+        setInterval(updateServerStatus, 30000);
+        updateServerStatus();
+        
+        // Theme switcher
+        const themeSwitcher = document.getElementById('theme-switcher');
+        themeSwitcher.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                themeSwitcher.textContent = '🌙';
+            } else {
+                themeSwitcher.textContent = '☀️';
+            }
+        });
+        
+        // Set copyright year
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+        
+        // Language switcher (placeholder)
+        document.getElementById('language-select').addEventListener('change', function() {
+            alert('Language will be changed to: ' + this.value);
+            // In a real implementation, you would reload content in the selected language
+        });
+    </script>
+</body>
+</html>
